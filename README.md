@@ -1,1 +1,1 @@
-git 
+A Fast Loading and Performance Intensive Social App made with REACT, TypeScript, Appwrite and Tailwind.
