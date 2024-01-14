@@ -13,8 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
+import Loader from "@/components/shared/Loader";
 
 const SignupForm = () => {
+  const isLoading = true;
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
@@ -93,7 +95,11 @@ const SignupForm = () => {
             )}
           />
           <Button className="shad-button_primary mt-4" type="submit">
-            Submit
+            {isLoading ? (
+              <div className="flex-center gap-2">
+                <Loader/> Loading...
+              </div>
+            ): "Sign Up"}
           </Button>
         </form>
       </div>
