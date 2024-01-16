@@ -14,15 +14,20 @@ import { Button } from "@/components/ui/button";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { useCreateUserAccount, useSignInAccount } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignupForm = () => {
   const {toast} = useToast();
 
+  const {checkAuthUser, isLoading: isUserLoading} = useUserContext();
+
   const {mutateAsync : createUserAccount , isPending: isCreatingAccount} = useCreateUserAccount();
 
   const {mutateAsync : signInAccount , isPending : isSigningIn} = useSignInAccount();
+
+  const navigate = useNavigate();
 
 
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -52,7 +57,15 @@ const SignupForm = () => {
       return toast({title : 'Sign Up Failed. Please try again.'})
     }
 
-    
+    const isLoggedIn = await checkAuthUser();
+
+    if(isLoggedIn){
+      form.reset();
+
+      navigate('/');
+    }else{
+      return toast({title : 'Sign Up Failed. Please try again.'});
+    }
   }
 
   return (
