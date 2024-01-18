@@ -46,6 +46,8 @@ const SignupForm = () => {
 
     if(!newUser){
       return toast({title : 'Sign Up Failed. Please try again.'})
+    }else{
+      toast({title : 'Sign Up successfull. Trying to log you in'});
     }
 
     const session = await signInAccount({
@@ -61,7 +63,7 @@ const SignupForm = () => {
 
     if(isLoggedIn){
       form.reset();
-
+      toast({title : 'Logged in successfully'});
       navigate('/');
     }else{
       return toast({title : 'Sign Up Failed. Please try again.'});
